@@ -1,6 +1,8 @@
 # get-aws-sso-creds
 Export AWS credentials into your current terminal.
 
+For users authenticating through AWS IAM Identity Center (AWS SSO) web portal. e.g. https://${subdomain}.awsapps.com/start
+
 ## Dependencies
 Requires [AWS CLI](https://aws.amazon.com/cli/).
 
