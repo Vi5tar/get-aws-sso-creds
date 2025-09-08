@@ -20,4 +20,18 @@ if [ -z "$profile" ]; then
     return 1
 fi
 
-eval "$(aws configure export-credentials --profile "$profile" --format env)"
+command_output=$(aws configure export-credentials --profile "$profile" --format env 2>&1)
+exit_code=$?
+
+if [ $exit_code -ne 0 ]; then
+    if echo "$command_output" | grep -q "^Error loading SSO Token:"; then
+        aws sso login --profile "$profile"
+
+        eval "$(aws configure export-credentials --profile "$profile" --format env)"
+    else
+        echo "$command_output"
+        return 1
+    fi
+else
+    eval "$command_output"
+fi
